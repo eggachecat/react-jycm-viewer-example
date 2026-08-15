@@ -2,6 +2,9 @@
 
 A runnable React and TypeScript reference for [react-jycm-viewer](https://github.com/eggachecat/react-jycm-viewer), the synchronized visual viewer for JYCM semantic JSON diffs.
 
+The example includes a compact business summary that separates structural
+changes from semantic rule checks and failed expectations.
+
 Unlike a plain text diff, JYCM can describe business-aware relationships such as array items matched by an `id`, path-specific unordered collections, ignored values, additions, removals, and nested value changes. This project shows how to feed that structured result into the low-level provider and renderer APIs using real editable JSON.
 
 ## Run locally

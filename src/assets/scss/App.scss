@@ -119,6 +119,31 @@ main {
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
 }
 
+.business-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  color: #183727;
+  background: #fff;
+  border-bottom: 1px solid #dbe8df;
+
+  span,
+  strong {
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eef3f0;
+    font-size: 0.82rem;
+  }
+
+  .pass { color: #166534; background: #dcfce7; }
+  .fail { color: #991b1b; background: #fee2e2; }
+}
+
+.viewer-workspace {
+  height: calc(100% - 58px);
+}
+
 .viewer-loading {
   display: grid;
   height: 100%;
