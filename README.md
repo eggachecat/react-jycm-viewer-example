@@ -1,36 +1,53 @@
-# An example of using [react-jycm-viewer](https://github.com/eggachecat/react-jycm-viewer)
+# react-jycm-viewer example
 
+A runnable React and TypeScript reference for [react-jycm-viewer](https://github.com/eggachecat/react-jycm-viewer), the synchronized visual viewer for JYCM semantic JSON diffs.
 
-This is a demo project for using [react-jycm-viewer](https://github.com/eggachecat/react-jycm-viewer) 
-created from the amazing template [React Webpack Typescript Starter](https://github.com/vikpe/react-webpack-typescript-starter)
+The example includes a compact business summary that separates structural
+changes from semantic rule checks and failed expectations.
 
+Unlike a plain text diff, JYCM can describe business-aware relationships such as array items matched by an `id`, path-specific unordered collections, ignored values, additions, removals, and nested value changes. This project shows how to feed that structured result into the low-level provider and renderer APIs using real editable JSON.
 
-# Usage
+## Run locally
+
 ```bash
-yarn # install dependenices
-yarn start
+pnpm install
+pnpm start
 ```
 
-# Included steps:
+Open `http://localhost:8080`. Edit any of the three inputs; temporarily invalid JSON keeps the last valid visualization visible.
 
-## dependenices
-- yarn add react-jycm-viewer react-monacor-editor monaco-editor
-- yarn add -D monaco-editor-webpack-plugin
-- 
+Validate a change with:
 
-## webpack config:
-- in `webpack/common.js`
+```bash
+pnpm run check
+```
 
-you can find the config for `monaco-editor-webpack-plugin`
+## Integration pattern
 
-```js
-{
-    plugins: [
-        // ...
-        new MonacoWebpackPlugin({
-            languages: ["json"],
-        })
-    ]
+```tsx
+import { JYCMContext, JYCMRender, useJYCM } from "react-jycm-viewer";
+
+function DiffView({ before, after, diffResult }) {
+  const viewer = useJYCM({
+    leftJsonStr: JSON.stringify(before, null, 2),
+    rightJsonStr: JSON.stringify(after, null, 2),
+    diffResult,
+  });
+
+  return (
+    <JYCMContext.Provider value={viewer}>
+      <JYCMRender leftTitle="Benchmark" rightTitle="Actual" />
+    </JYCMContext.Provider>
+  );
 }
-
 ```
+
+The complete editable implementation is in `src/components/Demo.tsx`; Monaco's JSON worker configuration is in `configs/webpack/common.js`.
+
+## Where the diff comes from
+
+- [JYCM for Python](https://github.com/eggachecat/jycm) generates semantic diff results and RFC 6902 patches.
+- [JYCM for JavaScript](https://github.com/eggachecat/jycm-js) generates the same class of structured result in browser or Node.js workflows.
+- [react-jycm-viewer](https://github.com/eggachecat/react-jycm-viewer) turns the result into synchronized, navigable source views.
+
+MIT licensed.
